@@ -23,7 +23,7 @@ process.stdout.write(String(' '.repeat(first_date.getDay() * 3)));
 
 /* 土曜日で改行して表示する */
 for (var date = first_date; date.getDate() <= days; ){
-  process.stdout.write(' ' + String(date.getDate()));
+  process.stdout.write(String(date.getDate()).padStart(2) + ' ');
   if (date.getDay() == 6)
     console.log('\n');
   date.setDate(date.getDate() + 1)
