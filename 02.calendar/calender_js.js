@@ -19,6 +19,7 @@ var days = last_date.getDate()
 /* m月 y と表示する */
 console.log(`      ${month}月 ${year}`);
 console.log('日 月 火 水 木 金 土');
+process.stdout.write(String(' '.repeat(first_date.getDay() * 3)));
 
 /* 土曜日で改行して表示する */
 for (var date = first_date; date.getDate() <= days; ){
