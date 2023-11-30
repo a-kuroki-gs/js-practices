@@ -25,10 +25,10 @@ process.stdout.write(String(' '.repeat(first_date.getDay() * 3)));
 for (var date = first_date; date.getDate() <= days; ){
   process.stdout.write(String(date.getDate()).padStart(2) + ' ');
   if (date.getDay() == 6)
-    console.log('\n');
+    console.log();
   date.setDate(date.getDate() + 1)
   if (date.getDate() == 1){
-    console.log('\n');
+    console.log();
     break;
   }
 }
