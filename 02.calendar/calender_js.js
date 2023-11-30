@@ -14,6 +14,7 @@ if (typeof month === 'undefined')
 /* 始まりの日と終わりの日を取得する */
 var first_date = new Date(Date.UTC(year, month -1, 1))
 var last_date = new Date(Date.UTC(year, month, 0))
+var days = last_date.getDate()
 
 /* m月 y と表示する */
 console.log(`      ${month}月 ${year}`);
