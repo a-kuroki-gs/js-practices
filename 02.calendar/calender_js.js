@@ -20,7 +20,7 @@ console.log(`      ${month}月 ${year}`);
 console.log("日 月 火 水 木 金 土");
 process.stdout.write(String(" ".repeat(first_date.getDay() * 3)));
 
-for (var date = first_date; date.getDate() <= days; ) {
+for (let date = first_date; date.getDate() <= days; ) {
   process.stdout.write(String(date.getDate()).padStart(2) + " ");
   if (date.getDay() == 6) {
     console.log();
