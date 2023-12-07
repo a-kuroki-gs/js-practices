@@ -12,8 +12,8 @@ if (typeof month === "undefined") {
   month = today.getMonth() + 1;
 }
 
-const firstDate = new Date(Date.UTC(year, month - 1, 1));
-const lastDate = new Date(Date.UTC(year, month, 0));
+const firstDate = new Date(year, month - 1, 1);
+const lastDate = new Date(year, month, 0);
 const days = lastDate.getDate();
 
 console.log(`      ${month}月 ${year}`);
