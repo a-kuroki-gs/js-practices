@@ -13,8 +13,6 @@ if (typeof month === "undefined") {
 }
 
 const firstDate = new Date(year, month - 1, 1);
-const lastDate = new Date(year, month, 0);
-const days = lastDate.getDate();
 
 console.log(`      ${month}月 ${year}`);
 console.log("日 月 火 水 木 金 土");
