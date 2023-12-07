@@ -1,6 +1,6 @@
 const argv = require("minimist")(process.argv.slice(2));
-const year = argv.y;
-const month = argv.m;
+let year = argv.y;
+let month = argv.m;
 
 const today = new Date();
 
