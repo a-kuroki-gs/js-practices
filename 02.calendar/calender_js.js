@@ -20,14 +20,12 @@ console.log(`      ${month}月 ${year}`);
 console.log("日 月 火 水 木 金 土");
 process.stdout.write(String(" ".repeat(firstDate.getDay() * 3)));
 
-for (let date = firstDate; date.getDate() <= days; ) {
+const nextMonth = new Date(year, month, 1);
+for (let date = firstDate; date < nextMonth; date.setDate(date.getDate() + 1)) {
   process.stdout.write(String(date.getDate()).padStart(2) + " ");
   if (date.getDay() == 6) {
     console.log();
   }
-  date.setDate(date.getDate() + 1);
-  if (date.getDate() == 1) {
-    console.log();
-    break;
-  }
 }
+
+console.log();
