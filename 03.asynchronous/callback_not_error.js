@@ -20,7 +20,12 @@ function test() {
                   console.error(err.message);
                 } else {
                   console.log(records);
+                  db.run("DROP TABLE books", (err) => {
+                    if (err) {
+                      console.error(err.message);
+                    }
                   db.close();
+                  });
                 }
               });
             }

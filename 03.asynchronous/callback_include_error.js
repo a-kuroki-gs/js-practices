@@ -17,7 +17,12 @@ function test() {
         } else {
           console.log(rows);
         }
-        db.close();
+      });
+      db.run("DROP TABLE books", (err) => {
+        if (err) {
+          console.error(err.message);
+        }
+      db.close();
       });
     }
   });
