@@ -6,23 +6,20 @@ function test() {
   const db = new sqlite3.Database(":memory:");
 
   create_table(db, "books").then(() => {
-      return insert_record(db, "books", "Test");
-    })
-    .then(() => {
-      return select_id_from_table(db, "books", "id");
-    })
-    .then(rows => {
-      console.log(rows);
-      return select_all_from_table(db, "books");
-    })
-    .then(records => {
-      console.log(records);
-      drop_table(db, "books");
-      db.close();
-    })
-    .catch(err => {
-      console.error(err.message);
-    });
+    return insert_record(db, "books", "Test");
+  })
+  .then(() => {
+    return select_id_from_table(db, "books", "id");
+  })
+  .then(rows => {
+    console.log(rows);
+    return select_all_from_table(db, "books");
+  })
+  .then(records => {
+    console.log(records);
+    drop_table(db, "books");
+    db.close();
+  });
 }
 
 test();
