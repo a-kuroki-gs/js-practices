@@ -6,7 +6,7 @@ function test() {
   const db = new sqlite3.Database(":memory:");
 
   create_table(db, "books").then(() => {
-    return insert_record(db, "books", );
+    return insert_record(db, "book", "Test");
   })
   .catch(err => {
     console.error(err.message);

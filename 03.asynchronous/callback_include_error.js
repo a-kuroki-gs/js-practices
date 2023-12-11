@@ -3,7 +3,7 @@ const db = new sqlite3.Database(":memory:");
 
 function test() {
   db.run("CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)", () => {
-    db.run("INSERT INTO books(title) VALUES(?)", [], (err) => {
+    db.run("INSERT INTO book(title) VALUES(?)", ["Test"], (err) => {
       if (err) {
         console.error(err.message);
       }
