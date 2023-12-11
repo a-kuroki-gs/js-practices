@@ -6,7 +6,7 @@ import {
   select_id_from_table,
   select_all_from_table,
   drop_table,
-} from "./promise_methods.js";
+} from "./methods.js";
 
 function test() {
   const db = new sqlite3.Database(":memory:");

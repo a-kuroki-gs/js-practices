@@ -1,12 +1,15 @@
 export function create_table(db, table) {
   return new Promise((resolve, reject) => {
-    db.run(`CREATE TABLE ${table}(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)`, (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
+    db.run(
+      `CREATE TABLE ${table}(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)`,
+      (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      },
+    );
   });
 }
 
@@ -54,6 +57,6 @@ export function drop_table(db, table) {
       } else {
         resolve();
       }
-    })
-  })
+    });
+  });
 }
