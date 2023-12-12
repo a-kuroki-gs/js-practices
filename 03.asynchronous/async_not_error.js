@@ -1,23 +1,20 @@
 import sqlite3 from "sqlite3";
 
-import {
-  create_table,
-  insert_record,
-  select_id_from_table,
-  select_all_from_table,
-  drop_table,
-} from "./methods.js";
+import { run_db_run, run_db_all } from "./methods.js";
 
 async function test() {
   const db = new sqlite3.Database(":memory:");
 
-  await create_table(db, "books");
-  await insert_record(db, "books", "Test");
-  const rows = await select_id_from_table(db, "books", "id");
+  await run_db_run(
+    db,
+    "CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
+  );
+  await run_db_run(db, "INSERT INTO books(title) VALUES(?)", ["Test"]);
+  const rows = await run_db_all(db, "SELECT id FROM books");
   console.log(rows);
-  const records = await select_all_from_table(db, "books");
+  const records = await run_db_all(db, "SELECT * FROM books");
   console.log(records);
-  await drop_table(db, "books");
+  await run_db_run(db, "DROP TABLE books");
   db.close();
 }
 
