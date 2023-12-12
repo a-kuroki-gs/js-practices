@@ -2,11 +2,11 @@
 
 class Database {
   constructor() {
-    this.db = [];
+    this.db = {};
   }
 
   max_id() {
-    const ids = this.db.map(memo => memo.id);
+    const ids = Object.keys(this.db);
     return ids.length > 0 ? Math.max(...ids) : -1;
   }
 
@@ -16,19 +16,20 @@ class Database {
   }
 
   list_of_memos() {
-    return this.db.map(function(memo){
-      return { name: memo.first_line, value: memo.id };
+    return Object.values(this.db).map(memo => {
+      return { name: memo.first_line(), value: memo.id };
     });
   }
 
   read_memo(id) {
-    return this.db.find(memo => memo.id === id);
+    return this.db[id];
   }
 
   delete_memo(id) {
-    const memo = this.db.find(memo => memo.id === id);
-    memo.delete;
-    this.db.splice(id, 1);
+    // const memo = this.db.find(memo => memo.id === id);
+    // memo.delete;
+    // this.db.splice(id, 1);
+    delete this.db[id];
   }
 }
 
