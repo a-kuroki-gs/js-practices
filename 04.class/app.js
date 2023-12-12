@@ -9,11 +9,9 @@ import Database from './db.js';
 import Memo from './memo.js';
 
 const memodb = new Database();
-// テストデータ
-memodb.add_memo(new Memo("test0"));
-memodb.add_memo(new Memo("test1"));
-memodb.add_memo(new Memo("test2\nsss"));
-memodb.add_memo(new Memo("test3"));
+
+// 以前に保存されたデータを読み込む
+memodb.loadFromFile('memos.json');
 
 if (argv.l === true) {
   // 一覧
@@ -79,3 +77,7 @@ if (argv.l === true) {
     // console.log(memodb);
   });
 }
+
+process.on('exit', () => {
+  memodb.saveToFile('memos.json');
+});
