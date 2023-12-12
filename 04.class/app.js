@@ -1,8 +1,7 @@
-import yargs from 'yargs/yargs';
-import { hideBin } from 'yargs/helpers'
-
-const argv = yargs(hideBin(process.argv)).argv
-console.log(argv);
+import minimist from 'minimist';
+import readline from 'readline';
+const argv = minimist(process.argv.slice(2));
+// console.log(argv);
 
 import enquirer from 'enquirer'
 
