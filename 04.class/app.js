@@ -59,4 +59,23 @@ if (argv.l === true) {
     memodb.delete_memo(id);
     console.log(`${answer.selections} を削除しました`);
   })();
+} else if (argv._.length === 0) {
+  // 追加
+  const contents = [];
+  const reader = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+  reader.on('line', function(line) {
+    contents.push(line);
+  });
+
+  reader.on('close', function() {
+    const content = contents.join('\n');
+    const new_memo = new Memo();
+    new_memo.content = content;
+    memodb.add_memo(new_memo);
+
+    // console.log(memodb);
+  });
 }
