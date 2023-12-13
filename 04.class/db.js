@@ -7,34 +7,34 @@ class Database {
   }
 
   async createTable() {
-    await run_db_run(
+    await runDbRun(
       this.db,
       "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
       );
   }
 
   async insertMemo(memo) {
-    await run_db_run(this.db, "INSERT INTO memos (content) VALUES(?)", [memo.content]);
+    await runDbRun(this.db, "INSERT INTO memos (content) VALUES(?)", [memo.content]);
   }
 
   async selectMemo(id) {
-    const row = await run_db_get(this.db, "SELECT * FROM memos WHERE id = ?", [id]);
+    const row = await runDbGet(this.db, "SELECT * FROM memos WHERE id = ?", [id]);
     return row;
   }
 
   async selectAll() {
-    const rows = await run_db_all(this.db, "SELECT * FROM memos");
+    const rows = await runDbAll(this.db, "SELECT * FROM memos");
     return rows;
   }
 
   async deleteMemo(id) {
-    await run_db_run(this.db, "DELETE FROM memos WHERE id = ?", [id]);
+    await runDbRun(this.db, "DELETE FROM memos WHERE id = ?", [id]);
   }
 }
 
 export default Database;
 
-export function run_db_run(db, sql, params) {
+function runDbRun(db, sql, params) {
   return new Promise((resolve, reject) => {
     db.run(sql, params, function(err) {
       if (err) {
@@ -46,7 +46,7 @@ export function run_db_run(db, sql, params) {
   });
 }
 
-export function run_db_get(db, sql, params) {
+function runDbGet(db, sql, params) {
   return new Promise((resolve, reject) => {
     db.get(sql, params, (err, row) => {
       if (err) {
@@ -59,7 +59,7 @@ export function run_db_get(db, sql, params) {
   });
 }
 
-export function run_db_all(db, sql) {
+function runDbAll(db, sql) {
   return new Promise((resolve, reject) => {
     db.all(sql, [], (err, rows) => {
       if (err) {
