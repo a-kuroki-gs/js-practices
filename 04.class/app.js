@@ -12,14 +12,12 @@ class App {
 
   async run() {
     const argv = minimist(process.argv.slice(2));
-    const { Select } = enquirer;
-    this.memory.createTable();
+    await this.memory.createTable();
 
     if (argv.l === true) {
       // 一覧
       (async () => {
         const memos = await this.memory.selectAll();
-        // console.log(memos);
         memos.forEach(memo => {
           console.log(memo.firstLine);
         });
@@ -27,17 +25,9 @@ class App {
     } else if (argv.r === true) {
       // 参照
       (async () => {
-        const prompt = new Select({
-          name: 'selections',
-          type: 'select',
-          multiple: false,
-          message: 'Choose a note you want to see:',
-          choices: this.buildSelection(),
-          result() {
-            return this.focused.value;
-          }
-        });
-  
+        const choices = await this.buildChoices();
+        const prompt = await this.buildPrompt('see', choices);
+
         const id = await prompt.run();
         const memo = await this.memory.selectMemo(id);
         console.log(memo.content);
@@ -45,16 +35,8 @@ class App {
     } else if (argv.d === true) {
       // 削除
       (async () => {
-        const prompt = new Select({
-          name: 'selections',
-          type: 'select',
-          multiple: false,
-          message: 'Choose a note you want to delete:',
-          choices: this.buildSelection(),
-          result() {
-            return this.focused.value;
-          }
-        });
+        const choices = await this.buildChoices();
+        const prompt = await this.buildPrompt('delete', choices);
   
         const id = await prompt.run();
         const memo = await this.memory.selectMemo(id);
@@ -68,6 +50,7 @@ class App {
         input: process.stdin,
         output: process.stdout
       });
+  
       reader.on('line', line => {
         contents.push(line);
       });
@@ -75,15 +58,29 @@ class App {
       reader.on('close', () => {
         const content = contents.join('\n');
         const memo = new Memo(null, content);
-
         this.memory.insertMemo(memo);
       });
     }
   }
 
-  async buildSelection() {
+  async buildPrompt(operation, choices) {
+    const { Select } = enquirer;
+
+    return new Select({
+      name: 'selections',
+      type: 'select',
+      multiple: false,
+      message: `Choose a note you want to ${operation}:`,
+      choices: choices,
+      result() {
+        return this.focused.value;
+      }
+    })
+  }
+
+  async buildChoices() {
     const memos = await this.memory.selectAll();
-    console.log(memos);
+
     return memos.map(memo => ({
       name: memo.firstLine, value: memo.id
     }));
