@@ -1,15 +1,11 @@
 class Memo {
-  constructor(content) {
+  constructor(id, content) {
+    this.id = id;
     this.content = content;
-    this.id = 0;
   }
 
-  first_line() {
+  get firstLine() {
     return this.content.split('\n')[0];
-  }
-
-  delete() {
-    this.remove;
   }
 }
 

@@ -1,58 +1,73 @@
 import Memo from './memo.js';
-import * as fs from 'node:fs';
+import sqlite3 from 'sqlite3';
 
 class Database {
   constructor() {
-    this.db = {};
+    this.db = new sqlite3.Database("memo.db");
   }
 
-  max_id() {
-    const ids = Object.keys(this.db);
-    return ids.length > 0 ? Math.max(...ids) : -1;
+  async createTable() {
+    await run_db_run(
+      this.db,
+      "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
+      );
   }
 
-  add_memo(memo) {
-    memo.id = this.max_id() + 1;
-    this.db[memo.id] = memo;
+  async insertMemo(memo) {
+    await run_db_run(this.db, "INSERT INTO memos (content) VALUES(?)", [memo.content]);
   }
 
-  list_of_memos() {
-    return Object.values(this.db).map(memo => {
-      return { name: memo.first_line(), value: memo.id };
-    });
+  async selectMemo(id) {
+    const row = await run_db_get(this.db, "SELECT * FROM memos WHERE id = ?", [id]);
+    return row;
   }
 
-  read_memo(id) {
-    return this.db[id];
+  async selectAll() {
+    const rows = await run_db_all(this.db, "SELECT * FROM memos");
+    return rows;
   }
 
-  delete_memo(id) {
-    // const memo = this.db.find(memo => memo.id === id);
-    // memo.delete;
-    // this.db.splice(id, 1);
-    delete this.db[id];
-  }
-
-  // データをファイルに保存するメソッド
-  saveToFile(filename) {
-    const data = JSON.stringify(this.db);
-    fs.writeFileSync(filename, data);
-  }
-
-  // ファイルからデータを読み込むメソッド
-  loadFromFile(filename) {
-    const data = fs.readFileSync(filename).toString();
-    const parsedData = JSON.parse(data);
-
-    Object.keys(parsedData).forEach(key => {
-      const memoData = parsedData[key];
-      const memo = new Memo(memoData.content); // Memo クラスのインスタンスを生成
-
-      // id を修正して memo を this.db に追加
-      memo.id = memoData.id;
-      this.db[key] = memo;
-    });
+  async deleteMemo(id) {
+    await run_db_run(this.db, "DELETE FROM memos WHERE id = ?", [id]);
   }
 }
 
 export default Database;
+
+export function run_db_run(db, sql, params) {
+  return new Promise((resolve, reject) => {
+    db.run(sql, params, function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(this);
+      }
+    });
+  });
+}
+
+export function run_db_get(db, sql, params) {
+  return new Promise((resolve, reject) => {
+    db.get(sql, params, (err, row) => {
+      if (err) {
+        reject(err);
+      } else {
+        const memo = new Memo(row.id, row.content);
+        resolve(memo);
+      }
+    });
+  });
+}
+
+export function run_db_all(db, sql) {
+  return new Promise((resolve, reject) => {
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        const memos = rows.map((row) => new Memo(row.id, row.content));
+        resolve(memos);
+      }
+    });
+  });
+}
