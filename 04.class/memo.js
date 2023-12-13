@@ -5,7 +5,7 @@ class Memo {
   }
 
   get firstLine() {
-    return this.content.split('\n')[0];
+    return this.content.split("\n")[0];
   }
 }
 

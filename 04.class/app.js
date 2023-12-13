@@ -1,9 +1,9 @@
-import minimist from 'minimist';
-import readline from 'readline';
-import enquirer from 'enquirer';
+import minimist from "minimist";
+import readline from "readline";
+import enquirer from "enquirer";
 
-import Database from './db.js';
-import Memo from './memo.js';
+import Database from "./db.js";
+import Memo from "./memo.js";
 
 class App {
   constructor() {
@@ -27,14 +27,14 @@ class App {
 
   async runMemoList() {
     const memos = await this.memory.selectAll();
-    memos.forEach(memo => {
+    memos.forEach((memo) => {
       console.log(memo.firstLine);
     });
   }
 
   async runReadMemo() {
     const choices = await this.buildChoices();
-    const prompt = await this.buildPrompt('see', choices);
+    const prompt = await this.buildPrompt("see", choices);
 
     const id = await prompt.run();
     const memo = await this.memory.selectMemo(id);
@@ -43,7 +43,7 @@ class App {
 
   async runDeleteMemo() {
     const choices = await this.buildChoices();
-    const prompt = await this.buildPrompt('delete', choices);
+    const prompt = await this.buildPrompt("delete", choices);
 
     const id = await prompt.run();
     const memo = await this.memory.selectMemo(id);
@@ -55,15 +55,15 @@ class App {
     const contents = [];
     const reader = readline.createInterface({
       input: process.stdin,
-      output: process.stdout
+      output: process.stdout,
     });
 
-    reader.on('line', line => {
+    reader.on("line", (line) => {
       contents.push(line);
     });
 
-    reader.on('close', () => {
-      const content = contents.join('\n');
+    reader.on("close", () => {
+      const content = contents.join("\n");
       const memo = new Memo(null, content);
       this.memory.insertMemo(memo);
       console.log(`${memo.firstLine} を追加しました`);
@@ -74,22 +74,23 @@ class App {
     const { Select } = enquirer;
 
     return new Select({
-      name: 'selections',
-      type: 'select',
+      name: "selections",
+      type: "select",
       multiple: false,
       message: `Choose a note you want to ${operation}:`,
       choices: choices,
       result() {
         return this.focused.value;
-      }
-    })
+      },
+    });
   }
 
   async buildChoices() {
     const memos = await this.memory.selectAll();
 
-    return memos.map(memo => ({
-      name: memo.firstLine, value: memo.id
+    return memos.map((memo) => ({
+      name: memo.firstLine,
+      value: memo.id,
     }));
   }
 }

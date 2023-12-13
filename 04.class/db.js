@@ -1,5 +1,5 @@
-import Memo from './memo.js';
-import sqlite3 from 'sqlite3';
+import Memo from "./memo.js";
+import sqlite3 from "sqlite3";
 
 class Database {
   constructor() {
@@ -10,15 +10,19 @@ class Database {
     await runDbRun(
       this.db,
       "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT NOT NULL)",
-      );
+    );
   }
 
   async insertMemo(memo) {
-    await runDbRun(this.db, "INSERT INTO memos (content) VALUES(?)", [memo.content]);
+    await runDbRun(this.db, "INSERT INTO memos (content) VALUES(?)", [
+      memo.content,
+    ]);
   }
 
   async selectMemo(id) {
-    const row = await runDbGet(this.db, "SELECT * FROM memos WHERE id = ?", [id]);
+    const row = await runDbGet(this.db, "SELECT * FROM memos WHERE id = ?", [
+      id,
+    ]);
     return row;
   }
 
@@ -36,7 +40,7 @@ export default Database;
 
 function runDbRun(db, sql, params) {
   return new Promise((resolve, reject) => {
-    db.run(sql, params, function(err) {
+    db.run(sql, params, function (err) {
       if (err) {
         reject(err);
       } else {
