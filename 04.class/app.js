@@ -15,55 +15,62 @@ class App {
     await this.memory.createTable();
 
     if (argv.l === true) {
-      // 一覧
-      (async () => {
-        const memos = await this.memory.selectAll();
-        memos.forEach(memo => {
-          console.log(memo.firstLine);
-        });
-      })();
+      this.runMemoList();
     } else if (argv.r === true) {
-      // 参照
-      (async () => {
-        const choices = await this.buildChoices();
-        const prompt = await this.buildPrompt('see', choices);
-
-        const id = await prompt.run();
-        const memo = await this.memory.selectMemo(id);
-        console.log(memo.content);
-      })();
+      this.runReadMemo();
     } else if (argv.d === true) {
-      // 削除
-      (async () => {
-        const choices = await this.buildChoices();
-        const prompt = await this.buildPrompt('delete', choices);
-  
-        const id = await prompt.run();
-        const memo = await this.memory.selectMemo(id);
-        await this.memory.deleteMemo(id);
-        console.log(`${memo.firstLine} を削除しました`);
-      })();
+      this.runDeleteMemo();
     } else if (argv._.length === 0) {
-      // 入力
-      const contents = [];
-      const reader = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-      });
-  
-      reader.on('line', line => {
-        contents.push(line);
-      });
-
-      reader.on('close', () => {
-        const content = contents.join('\n');
-        const memo = new Memo(null, content);
-        this.memory.insertMemo(memo);
-      });
+      this.runInsertMemo();
     }
   }
 
-  async buildPrompt(operation, choices) {
+  async runMemoList() {
+    const memos = await this.memory.selectAll();
+    memos.forEach(memo => {
+      console.log(memo.firstLine);
+    });
+  }
+
+  async runReadMemo() {
+    const choices = await this.buildChoices();
+    const prompt = await this.buildPrompt('see', choices);
+
+    const id = await prompt.run();
+    const memo = await this.memory.selectMemo(id);
+    console.log(memo.content);
+  }
+
+  async runDeleteMemo() {
+    const choices = await this.buildChoices();
+    const prompt = await this.buildPrompt('delete', choices);
+
+    const id = await prompt.run();
+    const memo = await this.memory.selectMemo(id);
+    await this.memory.deleteMemo(id);
+    console.log(`${memo.firstLine} を削除しました`);
+  }
+
+  runInsertMemo() {
+    const contents = [];
+    const reader = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+
+    reader.on('line', line => {
+      contents.push(line);
+    });
+
+    reader.on('close', () => {
+      const content = contents.join('\n');
+      const memo = new Memo(null, content);
+      this.memory.insertMemo(memo);
+      console.log(`${memo.firstLine} を追加しました`);
+    });
+  }
+
+  buildPrompt(operation, choices) {
     const { Select } = enquirer;
 
     return new Select({
