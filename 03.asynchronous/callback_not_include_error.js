@@ -7,10 +7,10 @@ function main() {
     "CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
     () => {
       db.run("INSERT INTO books(title) VALUES(?)", ["Test"], () => {
-        db.all("SELECT id FROM books", [], (err, rows) => {
+        db.all("SELECT id FROM books", (err, rows) => {
           console.log(rows);
-          db.all("SELECT * FROM books", [], (err, records) => {
-            console.log(records);
+          db.all("SELECT * FROM books", (err, books) => {
+            console.log(books);
             db.run("DROP TABLE books", () => {
               db.close();
             });

@@ -12,8 +12,8 @@ async function main() {
   await runDbQuery(db, "INSERT INTO books(title) VALUES(?)", ["Test"]);
   const rows = await getAllFromDb(db, "SELECT id FROM books");
   console.log(rows);
-  const records = await getAllFromDb(db, "SELECT * FROM books");
-  console.log(records);
+  const books = await getAllFromDb(db, "SELECT * FROM books");
+  console.log(books);
   await runDbQuery(db, "DROP TABLE books");
   db.close();
 }

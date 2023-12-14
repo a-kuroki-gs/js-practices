@@ -10,7 +10,7 @@ function main() {
         if (err) {
           console.error(err.message);
         }
-        db.all("SELECT books_id FROM books", [], (err) => {
+        db.all("SELECT books_id FROM books", (err) => {
           if (err) {
             console.error(err.message);
           }

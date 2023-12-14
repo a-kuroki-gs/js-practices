@@ -15,8 +15,8 @@ function main() {
       console.log(rows);
       return getAllFromDb(db, "SELECT * FROM books");
     })
-    .then((records) => {
-      console.log(records);
+    .then((books) => {
+      console.log(books);
       runDbQuery(db, "DROP TABLE books");
       db.close();
     });
