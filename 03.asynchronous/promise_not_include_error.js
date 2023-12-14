@@ -10,9 +10,8 @@ function main() {
     "CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   )
     .then(() => runDbQuery(db, "INSERT INTO books(title) VALUES(?)", ["Test"]))
-    .then(() => getAllFromDb(db, "SELECT id FROM books"))
-    .then((rows) => {
-      console.log(rows);
+    .then((book) => {
+      console.log(`id: ${book.lastID}`);
       return getAllFromDb(db, "SELECT * FROM books");
     })
     .then((books) => {

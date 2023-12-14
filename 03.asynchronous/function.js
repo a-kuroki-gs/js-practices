@@ -1,10 +1,10 @@
 export function runDbQuery(db, sql, params) {
   return new Promise((resolve, reject) => {
-    db.run(sql, params, (err) => {
+    db.run(sql, params, function(err) {
       if (err) {
         reject(err);
       } else {
-        resolve(params);
+        resolve(this);
       }
     });
   });

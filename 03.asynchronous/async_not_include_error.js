@@ -9,9 +9,8 @@ async function main() {
     db,
     "CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   );
-  await runDbQuery(db, "INSERT INTO books(title) VALUES(?)", ["Test"]);
-  const rows = await getAllFromDb(db, "SELECT id FROM books");
-  console.log(rows);
+  const book = await runDbQuery(db, "INSERT INTO books(title) VALUES(?)", ["Test"]);
+  console.log(`id: ${book.lastID}`);
   const books = await getAllFromDb(db, "SELECT * FROM books");
   console.log(books);
   await runDbQuery(db, "DROP TABLE books");
