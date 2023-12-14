@@ -1,4 +1,4 @@
-export function run_db_run(db, sql, params) {
+export function runDbQuery(db, sql, params) {
   return new Promise((resolve, reject) => {
     db.run(sql, params, (err) => {
       if (err) {
@@ -10,7 +10,7 @@ export function run_db_run(db, sql, params) {
   });
 }
 
-export function run_db_all(db, sql) {
+export function getAllFromDb(db, sql) {
   return new Promise((resolve, reject) => {
     db.all(sql, [], (err, rows) => {
       if (err) {
