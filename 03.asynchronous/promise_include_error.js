@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 
-import { runDbQuery, getAllFromDb } from "./function.js";
+import { runDbQuery, getAllFromDb, closeDb } from "./function.js";
 
 function main() {
   const db = new sqlite3.Database(":memory:");
@@ -19,7 +19,9 @@ function main() {
     })
     .then(() => {
       runDbQuery(db, "DROP TABLE books");
-      db.close();
+    })
+    .then(() => {
+      closeDb(db);
     });
 }
 
