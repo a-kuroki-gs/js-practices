@@ -2,7 +2,7 @@ import sqlite3 from "sqlite3";
 
 import { run_db_run, run_db_all } from "./function.js";
 
-async function test() {
+async function main() {
   const db = new sqlite3.Database(":memory:");
 
   await run_db_run(
@@ -18,4 +18,4 @@ async function test() {
   db.close();
 }
 
-test();
+main();

@@ -2,7 +2,7 @@ import sqlite3 from "sqlite3";
 
 import { run_db_run, run_db_all } from "./function.js";
 
-function test() {
+function main() {
   const db = new sqlite3.Database(":memory:");
 
   run_db_run(
@@ -27,4 +27,4 @@ function test() {
     });
 }
 
-test();
+main();
