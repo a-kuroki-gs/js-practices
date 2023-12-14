@@ -5,11 +5,11 @@ import { runDbQuery, getAllFromDb } from "./function.js";
 async function main() {
   const db = new sqlite3.Database(":memory:");
 
+  await runDbQuery(
+    db,
+    "CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
+  );
   try {
-    await runDbQuery(
-      db,
-      "CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
-    );
     await runDbQuery(db, "INSERT INTO book(title) VALUES(?)", ["Test"]);
   } catch (e) {
     if (e instanceof Error && e.errno === 1 && e.code === "SQLITE_ERROR") {
