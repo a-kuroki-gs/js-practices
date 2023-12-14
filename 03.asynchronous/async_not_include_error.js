@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 
-import { run_db_run, run_db_all } from "./methods.js";
+import { run_db_run, run_db_all } from "./function.js";
 
 async function test() {
   const db = new sqlite3.Database(":memory:");
