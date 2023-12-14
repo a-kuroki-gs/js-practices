@@ -9,15 +9,11 @@ function main() {
     db,
     "CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   )
-    .then(() => {
-      return runDbQuery(db, "INSERT INTO book(title) VALUES(?)", ["Test"]);
-    })
+    .then(() => runDbQuery(db, "INSERT INTO book(title) VALUES(?)", ["Test"]))
     .catch((err) => {
       console.error(err.message);
     })
-    .then(() => {
-      return getAllFromDb(db, "SELECT books_id FROM books");
-    })
+    .then(() => getAllFromDb(db, "SELECT books_id FROM books"))
     .catch((err) => {
       console.error(err.message);
     })
