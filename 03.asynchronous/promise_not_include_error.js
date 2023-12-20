@@ -15,7 +15,9 @@ function main() {
       return getAllFromDb(db, "SELECT * FROM books");
     })
     .then((books) => {
-      console.log(books);
+      books.forEach(book => {
+        console.log(`{ id: ${book.id}, title: ${book.title} }`);
+      })
       runDbQuery(db, "DROP TABLE books");
     })
     .then(() => {
