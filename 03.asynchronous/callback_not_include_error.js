@@ -8,7 +8,7 @@ function main() {
     () => {
       db.run("INSERT INTO books(title) VALUES(?)", ["Test"], function () {
         console.log(`id: ${this.lastID}`);
-        db.all("SELECT * FROM books", (err, books) => {
+        db.all("SELECT * FROM books", (_, books) => {
           console.log(books);
           db.run("DROP TABLE books", () => {
             db.close();
