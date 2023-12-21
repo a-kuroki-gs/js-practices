@@ -7,12 +7,12 @@ import Memo from "./memo.js";
 
 class App {
   constructor() {
-    this.memory = new MemoRepository();
+    this.memoRepository = new MemoRepository();
   }
 
   async run() {
     const argv = minimist(process.argv.slice(2));
-    await this.memory.createTable();
+    await this.memoRepository.createTable();
 
     if (argv.l === true) {
       this.runMemoList();
@@ -26,7 +26,7 @@ class App {
   }
 
   async runMemoList() {
-    const memos = await this.memory.selectAll();
+    const memos = await this.memoRepository.selectAll();
     memos.forEach((memo) => {
       console.log(memo.firstLine);
     });
@@ -37,7 +37,7 @@ class App {
     const prompt = await this.buildPrompt("see", choices);
 
     const id = await prompt.run();
-    const memo = await this.memory.selectMemo(id);
+    const memo = await this.memoRepository.selectMemo(id);
     console.log(memo.content);
   }
 
@@ -46,8 +46,8 @@ class App {
     const prompt = await this.buildPrompt("delete", choices);
 
     const id = await prompt.run();
-    const memo = await this.memory.selectMemo(id);
-    await this.memory.deleteMemo(id);
+    const memo = await this.memoRepository.selectMemo(id);
+    await this.memoRepository.deleteMemo(id);
     console.log(`${memo.firstLine} を削除しました`);
   }
 
@@ -65,7 +65,7 @@ class App {
     reader.on("close", () => {
       const content = contents.join("\n");
       const memo = new Memo(null, content);
-      this.memory.insertMemo(memo);
+      this.memoRepository.insertMemo(memo);
       console.log(`${memo.firstLine} を追加しました`);
     });
   }
@@ -86,7 +86,7 @@ class App {
   }
 
   async buildChoices() {
-    const memos = await this.memory.selectAll();
+    const memos = await this.memoRepository.selectAll();
 
     return memos.map((memo) => ({
       name: memo.firstLine,
