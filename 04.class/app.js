@@ -15,35 +15,35 @@ class App {
     await this.memoRepository.createTable();
 
     if (argv.l === true) {
-      this.runMemoList();
+      this.#runMemoList();
     } else if (argv.r === true) {
-      this.runReadMemo();
+      this.#runReadMemo();
     } else if (argv.d === true) {
-      this.runDeleteMemo();
+      this.#runDeleteMemo();
     } else if (argv._.length === 0) {
-      this.runInsertMemo();
+      this.#runInsertMemo();
     }
   }
 
-  async runMemoList() {
+  async #runMemoList() {
     const memos = await this.memoRepository.selectAll();
     memos.forEach((memo) => {
       console.log(memo.firstLine);
     });
   }
 
-  async runReadMemo() {
-    const choices = await this.buildChoices();
-    const prompt = await this.buildPrompt("see", choices);
+  async #runReadMemo() {
+    const choices = await this.#buildChoices();
+    const prompt = await this.#buildPrompt("see", choices);
 
     const id = await prompt.run();
     const memo = await this.memoRepository.selectMemo(id);
     console.log(memo.content);
   }
 
-  async runDeleteMemo() {
-    const choices = await this.buildChoices();
-    const prompt = await this.buildPrompt("delete", choices);
+  async #runDeleteMemo() {
+    const choices = await this.#buildChoices();
+    const prompt = await this.#buildPrompt("delete", choices);
 
     const id = await prompt.run();
     const memo = await this.memoRepository.selectMemo(id);
@@ -51,7 +51,7 @@ class App {
     console.log(`${memo.firstLine} を削除しました`);
   }
 
-  runInsertMemo() {
+  #runInsertMemo() {
     const contents = [];
     const reader = readline.createInterface({
       input: process.stdin,
@@ -70,7 +70,7 @@ class App {
     });
   }
 
-  buildPrompt(operation, choices) {
+  #buildPrompt(operation, choices) {
     const { Select } = enquirer;
 
     return new Select({
@@ -85,7 +85,7 @@ class App {
     });
   }
 
-  async buildChoices() {
+  async #buildChoices() {
     const memos = await this.memoRepository.selectAll();
 
     return memos.map((memo) => ({
