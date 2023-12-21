@@ -1,7 +1,7 @@
 import Memo from "./memo.js";
 import sqlite3 from "sqlite3";
 
-class Database {
+class MemoRepository {
   constructor() {
     this.db = new sqlite3.Database("memo.db");
   }
@@ -36,7 +36,7 @@ class Database {
   }
 }
 
-export default Database;
+export default MemoRepository;
 
 function runDbRun(db, sql, params) {
   return new Promise((resolve, reject) => {

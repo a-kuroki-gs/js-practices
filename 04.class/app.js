@@ -2,12 +2,12 @@ import minimist from "minimist";
 import readline from "readline";
 import enquirer from "enquirer";
 
-import Database from "./db.js";
+import MemoRepository from "./memo_repository.js";
 import Memo from "./memo.js";
 
 class App {
   constructor() {
-    this.memory = new Database();
+    this.memory = new MemoRepository();
   }
 
   async run() {
