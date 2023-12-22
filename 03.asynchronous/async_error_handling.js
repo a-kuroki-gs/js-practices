@@ -12,14 +12,14 @@ async function main() {
   try {
     await runDbQuery(db, "INSERT INTO book(title) VALUES(?)", ["Test"]);
   } catch (e) {
-    if (e instanceof Error && e.errno === 1 && e.code === "SQLITE_ERROR") {
+    if (e.code === "SQLITE_ERROR") {
       console.log(e.message);
     }
   }
   try {
     await getAllFromDb(db, "SELECT books_id FROM books");
   } catch (e) {
-    if (e instanceof Error && e.errno === 1 && e.code === "SQLITE_ERROR") {
+    if (e.code === "SQLITE_ERROR") {
       console.log(e.message);
     }
   }
