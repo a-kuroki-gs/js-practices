@@ -18,7 +18,7 @@ function main() {
       books.forEach(book => {
         console.log(`{ id: ${book.id}, title: ${book.title} }`);
       })
-      runDbQuery(db, "DROP TABLE books");
+      return runDbQuery(db, "DROP TABLE books");
     })
     .then(() => {
       closeDb(db);
