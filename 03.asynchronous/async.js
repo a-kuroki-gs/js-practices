@@ -14,9 +14,9 @@ async function main() {
   ]);
   console.log(`id: ${statement.lastID}`);
   const books = await getAllFromDb(db, "SELECT * FROM books");
-  books.forEach(book => {
+  books.forEach((book) => {
     console.log(`{ id: ${book.id}, title: ${book.title} }`);
-  })
+  });
   await runDbQuery(db, "DROP TABLE books");
   await closeDb(db);
 }

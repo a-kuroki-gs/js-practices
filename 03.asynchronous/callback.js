@@ -9,9 +9,9 @@ function main() {
       db.run("INSERT INTO books(title) VALUES(?)", ["Test"], function () {
         console.log(`id: ${this.lastID}`);
         db.all("SELECT * FROM books", (_, books) => {
-          books.forEach(book => {
+          books.forEach((book) => {
             console.log(`{ id: ${book.id}, title: ${book.title} }`);
-          })
+          });
           db.run("DROP TABLE books", () => {
             db.close();
           });

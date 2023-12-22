@@ -12,11 +12,11 @@ function main() {
     .then(() => runDbQuery(db, "INSERT INTO book(title) VALUES(?)", ["Test"]))
     .catch((err) => {
       console.error(err.message);
-      return getAllFromDb(db, "SELECT books_id FROM books")
+      return getAllFromDb(db, "SELECT books_id FROM books");
     })
     .catch((err) => {
       console.error(err.message);
-      return runDbQuery(db, "DROP TABLE books")
+      return runDbQuery(db, "DROP TABLE books");
     })
     .then(() => closeDb(db));
 }
