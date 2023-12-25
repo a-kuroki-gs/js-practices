@@ -19,7 +19,7 @@ async function main() {
   try {
     await getAllFromDb(db, "SELECT books_id FROM books");
   } catch (e) {
-    if (e.code === "SQLITE_ERROR") {
+    if (e instanceof Error && e.code === "SQLITE_ERROR") {
       console.log(e.message);
     }
   }
