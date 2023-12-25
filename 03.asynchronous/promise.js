@@ -20,9 +20,7 @@ function main() {
       });
       return runDbQuery(db, "DROP TABLE books");
     })
-    .then(() => {
-      closeDb(db);
-    });
+    .then(() => closeDb(db));
 }
 
 main();
