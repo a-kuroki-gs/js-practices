@@ -12,7 +12,7 @@ async function main() {
   try {
     await runDbQuery(db, "INSERT INTO book(title) VALUES(?)", ["Test"]);
   } catch (e) {
-    if (e.code === "SQLITE_ERROR") {
+    if (e instanceof Error && e.code === "SQLITE_ERROR") {
       console.log(e.message);
     }
   }
