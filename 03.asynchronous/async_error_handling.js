@@ -14,6 +14,8 @@ async function main() {
   } catch (err) {
     if (err instanceof Error && err.code === "SQLITE_ERROR") {
       console.log(err.message);
+    } else {
+      throw err;
     }
   }
   try {
@@ -21,6 +23,8 @@ async function main() {
   } catch (err) {
     if (err instanceof Error && err.code === "SQLITE_ERROR") {
       console.log(err.message);
+    } else {
+      throw err;
     }
   }
   await runDbQuery(db, "DROP TABLE books");
